@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+        integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body{
+            background-color: #2a2a2a21
+        }
+        .btn, #canvas{
+            box-shadow: .1px .1px 5px gray
+        }
+    </style>
+
+</head>
+
+<body>
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
+        <div id="app" class="form-group"
+            style="max-width: 430px; display: flex; flex-direction: column; justify-content: center">
+            <div class="card" style="margin-top: 15px">
+                <div class="card-header">
+                    Interface
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; flex-direction: row; ">
+                        <div style="display: flex;  width: 300px;  margin-right: 7px">
+                            <div class="form-group" style="margin-right: 5px;">
+                                <label for="coordX">Coordenada X</label>
+                                <input type="number" max="300" maxlength="3" class="form-control form-control-sm"
+                                    id="coordX" aria-describedby="coorX" placeholder="Entre com coordenada X">
+                                <small id="coorX" class="form-text text-muted"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="coordY">Coordenada Y</label>
+                                <input type="number" max="300" class="form-control form-control-sm" id="coordY"
+                                    aria-describedby="coorY" placeholder="Entre com coordenada Y">
+                                <small id="coorY" class="form-text text-muted"></small>
+                            </div>
+                        </div>
+                        <button onclick="cadastra()" class="btn btn-primary form-control-sm"
+                            style="align-self: flex-end; margin-bottom: 20px; width: 78px; padding-top: 3px">
+                            <i class="fa fa-plus-square" style="font-size:20px; color:white"></i>
+                        </button>
+
+                    </div>
+
+                    <div style="display: flex; flex-direction: row; justify-content: stretch">
+                        <div id="canvas"><canvas id="myCanvas" width="300" height="301"
+                            ></canvas></div>
+                        <div style="display: flex; justify-content: flex-top; flex-direction: column; margin-left: 5px">
+                            <button onclick="renderizaPontos()" class="btn btn-success " style="margin-bottom: 15px">
+                                Pontos
+                            </button>
+                            <button onclick="renderizaLinhas()" class="btn btn-success" style="margin-bottom: 15px">
+                                Linhas
+                            </button>
+                            <button onclick="renderizaLinhasPontos()" class="btn btn-warning"
+                                style="margin-bottom: 15px">
+                                Pontos e Linhas
+                            </button>
+                            <button onclick="resetar()" class="btn btn-danger" style="margin-bottom: 15px"> Resetar
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="form-group" id="label-coord">
+                        <label for="coordY">Coordenadas</label>
+                        <p id="coords"></p>
+                        <small id="coorY" class="form-text text-muted"></small>
+                    </div>
+                    <div class="alert alert-danger" role="alert" id="error">
+                        Preencha todos os campos!
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        document.getElementById('error').style.visibility = 'hidden'
+        let P = []
+
+        function toString(arr) {
+            string = '<p style="font-size: 12px">'
+            arr.forEach(function (e, index) {
+                string += "P" + (index + 1) + " (" + e.x + ", " + e.y + "); "
+            });
+            return string + "</p>"
+        }
+
+
+
+        function cadastra() {
+            const x = parseInt(document.getElementById('coordX').value)
+            const y = parseInt(document.getElementById('coordY').value)
+            if (!(x >= 0 || y >= 0)) {
+                document.getElementById('error').style.visibility = 'visible'
+                return
+            }
+
+            P.push({ x, y })
+            console.log(P)
+            document.getElementById('coords').innerHTML = toString(P)
+        }
+
+        function renderizaPontos() {
+
+            document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="300" height="301"></canvas>'
+
+            let c = document.getElementById("myCanvas");
+            let ctx = c.getContext("2d");
+
+
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+            const w = ctx.width
+            ctx.width = 1;
+            ctx.width = w;
+            for (let i = 0; i < P.length; i++) {
+                ctx.fillText(' P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
+                ctx.fillRect(P[i].x, -P[i].y + 300, 4, 4);
+                // ctx.arc(P[i].x, P[i].y, 2, 0, 2 * Math.PI);
+                ctx.stroke();
+
+            }
+        }
+
+        function renderizaLinhas() {
+
+            document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="300" height="301"></canvas>'
+
+            let c = document.getElementById("myCanvas");
+            let ctx = c.getContext("2d");
+
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+            const w = ctx.width
+            ctx.width = 1;
+            ctx.width = w;
+            for (let i = 0; i < P.length - 1; i++) {
+                ctx.fillText('P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
+                ctx.moveTo(P[i].x, -P[i].y + 300);
+                ctx.fillText('P' + (i + 2) + '(x: ' + P[i + 1].x + ', y: ' + P[i + 1].y + ')', P[i + 1].x + 4, -P[i + 1].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
+                ctx.lineTo(P[i + 1].x, -P[i + 1].y + 300);
+                ctx.stroke();
+            }
+            if (P.length >= 3) {
+                ctx.moveTo(P[P.length - 1].x, -P[P.length - 1].y + 300);
+                ctx.lineTo(P[0].x, -P[0].y + 300);
+                ctx.stroke();
+            }
+        }
+
+        function renderizaLinhasPontos() {
+
+            document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="300" height="301"></canvas>'
+
+            let c = document.getElementById("myCanvas");
+            let ctx = c.getContext("2d");
+
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+            const w = ctx.width
+            ctx.width = 1;
+            ctx.width = w;
+            for (let i = 0; i < P.length - 1; i++) {
+                ctx.fillText('P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
+                ctx.moveTo(P[i].x, -P[i].y + 300);
+                ctx.fillText('P' + (i + 2) + '(x: ' + P[i + 1].x + ', y: ' + P[i + 1].y + ')', P[i + 1].x + 4, -P[i + 1].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
+                ctx.lineTo(P[i + 1].x, -P[i + 1].y + 300);
+                ctx.stroke();
+            }
+            if (P.length >= 3) {
+                ctx.moveTo(P[P.length - 1].x, -P[P.length - 1].y + 300);
+                ctx.lineTo(P[0].x, -P[0].y + 300);
+                ctx.stroke();
+            }
+            for (let i = 0; i < P.length; i++) {
+                ctx.fillRect(P[i].x - 2, -P[i].y + 300 - 2, 4, 4);
+                // ctx.arc(P[i].x, P[i].y, 2, 0, 2 * Math.PI);
+                ctx.stroke();
+
+            }
+        }
+
+        function resetar() {
+            document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="300" height="301"></canvas>'
+            document.getElementById('coords').innerHTML = ''
+            document.getElementById('coordX').value = 0
+            document.getElementById('coordY').value = 0
+            document.getElementById('error').style.visibility = 'hidden'
+
+            P = []
+        }
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+</body>
+
+
+</html>
