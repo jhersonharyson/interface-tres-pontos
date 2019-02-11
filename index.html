@@ -28,7 +28,7 @@
         </div>
         <div class="card-body">
           <div style="display: flex; flex-direction: row; ">
-            <div style="display: flex;  width: 300px;  margin-right: 7px">
+            <div style="display: flex;  width: 320px;  margin-right: 7px">
               <div class="form-group" style="margin-right: 5px;">
                 <label for="coordX">Coordenada X</label>
                 <input type="number" max="300" maxlength="3" class="form-control form-control-sm" id="coordX"
@@ -49,7 +49,7 @@
           </div>
 
           <div style="display: flex; flex-direction: row; justify-content: stretch">
-            <div id="canvas"><canvas id="myCanvas" width="302" height="302"></canvas></div>
+            <div id="canvas"><canvas id="myCanvas" width="310" height="302"></canvas></div>
             <div style="display: flex; justify-content: flex-top; flex-direction: column; margin-left: 5px">
               <button onclick="renderizaPontos()" class="btn btn-success " style="margin-bottom: 15px">
                 Pontos
@@ -95,7 +95,7 @@
     function plotaEixos(ctx) {
       ctx.beginPath();
       ctx.moveTo(0, 301);
-      ctx.lineTo(300, 301);
+      ctx.lineTo(310, 301);
       ctx.stroke();
       ctx.fillText('0', 2, 290)
       ctx.fillText('x', 290, 295)
@@ -142,7 +142,7 @@
 
     function renderizaPontos() {
 
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="302" height="302" style="padding: 0px"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302" style="padding: 0px"></canvas>'
 
       let c = document.getElementById("myCanvas");
       let ctx = c.getContext("2d");
@@ -167,7 +167,7 @@
 
     function renderizaLinhas() {
 
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="302" height="302"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302"></canvas>'
 
       let c = document.getElementById("myCanvas");
       let ctx = c.getContext("2d");
@@ -193,7 +193,7 @@
 
     function renderizaLinhasPontos() {
 
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="302" height="302"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302"></canvas>'
 
       let c = document.getElementById("myCanvas");
       let ctx = c.getContext("2d");
@@ -224,7 +224,7 @@
     }
 
     function resetar() {
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="302" height="302"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302"></canvas>'
       document.getElementById('coords').innerHTML = ''
       document.getElementById('coordX').value = 0
       document.getElementById('coordY').value = 0
