@@ -12,7 +12,7 @@
     body{
             background-color: #2a2a2a21
         }
-        .btn, #canvas{
+        .btn{ /*, #canvas*/
             box-shadow: .1px .1px 5px gray
         }
     </style>
@@ -21,35 +21,35 @@
 
 <body>
   <div style="display: flex; flex-direction: column; justify-content: center; align-items: center">
-    <div id="app" class="form-group" style="max-width: 430px; display: flex; flex-direction: column; justify-content: center">
+    <div id="app" class="form-group" style="max-width: 550px; display: flex; flex-direction: column; justify-content: center">
       <div class="card" style="margin-top: 15px">
         <div class="card-header">
           Interface
         </div>
         <div class="card-body">
           <div style="display: flex; flex-direction: row; ">
-            <div style="display: flex;  width: 320px;  margin-right: 7px">
+            <div style="display: flex;  width: 400px;  margin-right: 7px">
               <div class="form-group" style="margin-right: 5px;">
                 <label for="coordX">Coordenada X</label>
                 <input type="number" max="300" maxlength="3" class="form-control form-control-sm" id="coordX"
-                  aria-describedby="coorX" placeholder="Entre com coordenada X">
+                  aria-describedby="coorX" style="width:195px" placeholder="Entre com coordenada X">
                 <small id="coorX" class="form-text text-muted"></small>
               </div>
               <div class="form-group">
                 <label for="coordY">Coordenada Y</label>
-                <input type="number" max="300" class="form-control form-control-sm" id="coordY" aria-describedby="coorY"
+                <input type="number" max="300"  style="width:195px" class="form-control form-control-sm" id="coordY" aria-describedby="coorY"
                   placeholder="Entre com coordenada Y">
                 <small id="coorY" class="form-text text-muted"></small>
               </div>
             </div>
-            <button onclick="cadastra()" class="btn btn-primary form-control-sm" style="align-self: flex-end; margin-bottom: 20px; width: 78px; padding-top: 3px">
+            <button onclick="cadastra()" class="btn btn-primary form-control-sm" style="align-self: flex-end; margin-bottom: 20px; width: 100px; padding-top: 3px">
               <i class="fa fa-plus-square" style="font-size:20px; color:white"></i>
             </button>
 
           </div>
 
           <div style="display: flex; flex-direction: row; justify-content: stretch">
-            <div id="canvas"><canvas id="myCanvas" width="310" height="302"></canvas></div>
+            <div id="canvas"><canvas id="myCanvas" width="400" height="320"></canvas></div>
             <div style="display: flex; justify-content: flex-top; flex-direction: column; margin-left: 5px">
               <button onclick="renderizaPontos()" class="btn btn-success " style="margin-bottom: 15px">
                 Pontos
@@ -94,15 +94,21 @@
 
     function plotaEixos(ctx) {
       ctx.beginPath();
-      ctx.moveTo(0, 301);
-      ctx.lineTo(310, 301);
+      ctx.moveTo(10, 319);
+      ctx.lineTo(310, 319);
+      ctx.moveTo(9, 20);
+      ctx.lineTo(17, 20);
       ctx.stroke();
-      ctx.fillText('0', 2, 290)
-      ctx.fillText('x', 290, 295)
-      ctx.fillText('y', 2, 10)
+      ctx.fillText('0', 2, 315)
+      ctx.fillText('x', 315, 315)
+      ctx.fillText('300', 315, 300)
+      ctx.fillText('300', 9, 15)
+      ctx.fillText('y', 2, 35)
       ctx.stroke();
-      ctx.moveTo(10, -300);
-      ctx.lineTo(10, 300);
+      ctx.moveTo(10, 20);
+      ctx.lineTo(10, 320);
+      ctx.moveTo(310, 310);
+      ctx.lineTo(310, 320);
       ctx.stroke();
       ctx.translate(10, 0);
       ctx.beginPath();
@@ -142,7 +148,7 @@
 
     function renderizaPontos() {
 
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302" style="padding: 0px"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="400" height="320" style="vertical-align: bottom;"></canvas>'
 
       let c = document.getElementById("myCanvas");
       let ctx = c.getContext("2d");
@@ -157,8 +163,8 @@
 
       for (let i = 0; i < P.length; i++) {
 
-        ctx.fillText(' P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
-        ctx.fillRect(P[i].x - 3, -P[i].y - 3 + 300, 6, 6);
+        ctx.fillText(' P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 320 + ([i + 1].y != [i].y ? 4 : -10))
+        ctx.fillRect(P[i].x - 3, -P[i].y - 3 + 320, 6, 6);
         // ctx.arc(P[i].x, P[i].y, 2, 0, 2 * Math.PI);
         ctx.stroke();
 
@@ -167,7 +173,7 @@
 
     function renderizaLinhas() {
 
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="400" height="320" style="vertical-align: bottom;"></canvas>'
 
       let c = document.getElementById("myCanvas");
       let ctx = c.getContext("2d");
@@ -178,22 +184,22 @@
       ctx.width = w;
       plotaEixos(ctx)
       for (let i = 0; i < P.length - 1; i++) {
-        ctx.fillText('P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
-        ctx.moveTo(P[i].x, -P[i].y + 300);
-        ctx.fillText('P' + (i + 2) + '(x: ' + P[i + 1].x + ', y: ' + P[i + 1].y + ')', P[i + 1].x + 4, -P[i + 1].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
-        ctx.lineTo(P[i + 1].x, -P[i + 1].y + 300);
+        ctx.fillText('P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 320 + ([i + 1].y != [i].y ? 4 : -10))
+        ctx.moveTo(P[i].x, -P[i].y + 320);
+        ctx.fillText('P' + (i + 2) + '(x: ' + P[i + 1].x + ', y: ' + P[i + 1].y + ')', P[i + 1].x + 4, -P[i + 1].y + 320 + ([i + 1].y != [i].y ? 4 : -10))
+        ctx.lineTo(P[i + 1].x, -P[i + 1].y + 320);
         ctx.stroke();
       }
       if (P.length >= 3) {
-        ctx.moveTo(P[P.length - 1].x, -P[P.length - 1].y + 300);
-        ctx.lineTo(P[0].x, -P[0].y + 300);
+        ctx.moveTo(P[P.length - 1].x, -P[P.length - 1].y + 320);
+        ctx.lineTo(P[0].x, -P[0].y + 320);
         ctx.stroke();
       }
     }
 
     function renderizaLinhasPontos() {
 
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="400" height="320" style="vertical-align: bottom;"></canvas>'
 
       let c = document.getElementById("myCanvas");
       let ctx = c.getContext("2d");
@@ -204,19 +210,19 @@
       ctx.width = w;
       plotaEixos(ctx)
       for (let i = 0; i < P.length - 1; i++) {
-        ctx.fillText('P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
-        ctx.moveTo(P[i].x, -P[i].y + 300);
-        ctx.fillText('P' + (i + 2) + '(x: ' + P[i + 1].x + ', y: ' + P[i + 1].y + ')', P[i + 1].x + 4, -P[i + 1].y + 300 + ([i + 1].y != [i].y ? 4 : -10))
-        ctx.lineTo(P[i + 1].x, -P[i + 1].y + 300);
+        ctx.fillText('P' + (i + 1) + '(x: ' + P[i].x + ', y: ' + P[i].y + ')', P[i].x + 4, -P[i].y + 320 + ([i + 1].y != [i].y ? 4 : -10))
+        ctx.moveTo(P[i].x, -P[i].y + 320);
+        ctx.fillText('P' + (i + 2) + '(x: ' + P[i + 1].x + ', y: ' + P[i + 1].y + ')', P[i + 1].x + 4, -P[i + 1].y + 320 + ([i + 1].y != [i].y ? 4 : -10))
+        ctx.lineTo(P[i + 1].x, -P[i + 1].y + 320);
         ctx.stroke();
       }
       if (P.length >= 3) {
-        ctx.moveTo(P[P.length - 1].x, -P[P.length - 1].y + 300);
-        ctx.lineTo(P[0].x, -P[0].y + 300);
+        ctx.moveTo(P[P.length - 1].x, -P[P.length - 1].y + 320);
+        ctx.lineTo(P[0].x, -P[0].y + 320);
         ctx.stroke();
       }
       for (let i = 0; i < P.length; i++) {
-        ctx.fillRect(P[i].x - 2, -P[i].y + 300 - 2, 4, 4);
+        ctx.fillRect(P[i].x - 3, -P[i].y - 3 + 320, 6, 6);
         // ctx.arc(P[i].x, P[i].y, 2, 0, 2 * Math.PI);
         ctx.stroke();
 
@@ -224,7 +230,7 @@
     }
 
     function resetar() {
-      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="310" height="302"></canvas>'
+      document.getElementById('canvas').innerHTML = '<canvas id="myCanvas" width="400" height="320" style="vertical-align: bottom;"></canvas>'
       document.getElementById('coords').innerHTML = ''
       document.getElementById('coordX').value = 0
       document.getElementById('coordY').value = 0
